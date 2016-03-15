@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.5"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<!-- 配置spring分发器 -->
+	<!-- Spring Servlet -->
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- 如果不使用下述配置，则spring会加载默认的配置文件，文件名称为上述 servlet-name的值“spring”+“servlet.xml"。
+                          即“spring-servlet.xml”和web.xml文件在同一目录 -->
+             <!-- 也可以使用下述方式重新指定spring配置文件的名称和存放目录，
+             classpath*: 指编译后的class目录 在 ide中 与src根目录相同 -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath*:spring-config/springMVC.xml</param-value>
+		</init-param>
+		<load-on-startup >1 </load-on-startup >
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>	
+	<!-- 当程序越来越大配置文件中的<bean>越来越多，而且变得关系错综复杂难于维护，此时应该考虑将配置文件拆分成多个。
+              为了让Spring能够读到这些配置文件并察觉到他们的变化，需要注册配置文件读取器 
+    -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!-- 配置文件读取器:注册成功后,需要设定配置文件列表设置全局参数。配置文件列表以逗号分隔-->
+	<context-param>
+		<param-name>contextConfigLocation </param-name>
+		<param-value>
+			<!-- /WEB-INF/dispatcherContext-servlet.xml,-->
+        	classpath*:spring-config/spring-data.xml
+		</param-value>
+	</context-param>
+	<!-- 下面为 Druid默认配置，过滤掉多余的 url地址 -->
+	<filter>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+	<init-param>
+		<param-name>exclusions</param-name>
+		<param-value>*.js,*. gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+	</init-param>
+	<init-param>
+		<param-name>principalSessionName</param-name>
+		<param-value>_dest_login_</param-value>
+	</init-param>
+	</filter>
+	<filter-mapping>
+	<filter-name>DruidWebStatFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 数据库连接 Druid配置  StatViewServlet是一个标准的 Servlet -->
+	<servlet>
+		<servlet-name>DruidStatView </servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+	<!-- 
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	-->
+	
+</web-app>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+  	
+  	<!-- 启用spring mvc 注解 -->
+    <context:annotation-config />
+    <!-- 定义无Controller的path,指向指定的视图 -->
+    <!--
+    <mvc:view-controller path="/class/method.html" view-name="hello.jsp"/>
+    -->
+    <!-- 定义无Controller的path,重定向到首页 -->
+    <!--
+	<mvc:view-controller path="/" view-name="redirect:/login" />
+	-->
+    <!-- 访问静态资源文件  -->
+    <!--
+	<mvc:resources mapping="/class/**" location="/WEB-INF/jsp/hello.jsp/" cache-period="31556926"/>
+    -->
+  
+  	<!-- 自动扫描且只扫描@Controller -->
+	<context:component-scan base-package="net.spring"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>	
+  	 <!--自动扫描的包名  扫描多个包时，包名之间用","隔开
+  	 <context:component-scan base-package="com.app,com.core,JUnit4" ></context:component-scan> 
+  	 -->
+	<!--处理文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="104857600" />
+		<property name="maxInMemorySize" value="4096" />
+	</bean>  	
+ 	<!-- 配置试图解析器（ViewResolver）-->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView"/>
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+</beans>

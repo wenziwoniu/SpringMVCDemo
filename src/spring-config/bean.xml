@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<bean id="customer" class="com.haiersoft.ch07.pojos.Customer">
+		<property name="id" value="1" />
+		<property name="userName" value="zhangsan" />
+		<property name="password" value="123" />
+		<property name="realName" value="张三" />
+		<property name="address" value="青岛" />
+		<property name="mobile" value="12345678" />
+	</bean>
+	
+</beans>
